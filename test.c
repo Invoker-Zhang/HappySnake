@@ -1,9 +1,9 @@
-#include "HappySnake.h"
 #include <pthread.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "HappySnake.h"
 int kbhit();
 char input='a';
 void ReadKey(){
@@ -45,8 +45,10 @@ int main(){
 	FoodGenerate();
 	while(1){
 		usleep(1000*500);
-		if(!SnakeMove(input))
+		if(!SnakeMove(input)){
+			system("stty cooked echo");
 			return 0;
+		}
 		FreshenScreen();
 	}
 	return 0;

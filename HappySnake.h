@@ -32,7 +32,7 @@ void SnakeInit();
 void FoodGenerate();
 int IsCrash();
 int SnakeMove(char direction);
-void DrawSnake();
+void WritePixel();
 void FreshenScreen();
 
 #endif

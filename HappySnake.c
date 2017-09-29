@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <time.h>
-#include "HappySnake.h"
 #include <stdlib.h>
+#include "HappySnake.h"
+
 #define above(a,b) ((a.x==b.x&&a.y+1==b.y)?1:0)
 #define below(a,b) ((a.x==b.x&&a.y-1==b.y)?1:0)
 #define left(a,b) ((a.y==b.y&&a.x+1==b.x)?1:0)
 #define right(a,b) ((a.y==b.y&&a.x-1==b.x)?1:0)
+#define IsOpsite(a,b) (((a=='w'&&b=='s')||(a=='a'&&b=='d')||(a=='s'&&b=='w'||a=='d'&&b=='a'))?1:0)
 
 void FreshenScreen(){
 	system("clear");
@@ -57,10 +59,10 @@ void SnakeInit(){
 	snake.pos[0].x=snake.pos[1].x+1;
 	snake.pos[0].y=snake.pos[1].y;
 	snake.length=3;
-	DrawSnake();
+	WritePixel();
 }
 
-void DrawSnake(){
+void WritePixel(){
 	for(int i=2;i<2+MOVEAREA_Y;i++){
 		for(int j=2;j<2+MOVEAREA_X;j++)
 			pixel[i][j]=BLANK;
@@ -83,24 +85,8 @@ int SnakeMove(char direction){
 		origin_direction='s';
 	else 
 		origin_direction='w';
-	switch(direction){
-		case 'w':
-			if(origin_direction=='s')
-				direction='s';
-			break;
-		case 'a':
-			if(origin_direction=='d')
-				direction='d';
-			break;
-		case 's':
-			if(origin_direction=='w')
-				direction='w';
-			break;
-		case 'd':
-			if(origin_direction=='a')
-				direction='a';
-			break;
-		default:break;
+	if(IsOpsite(origin_direction,direction)){
+		direction=origin_direction;
 	}
 	switch(direction){
 		case 'w':
@@ -109,10 +95,9 @@ int SnakeMove(char direction){
 				snake.pos[snake.length-1]=food.pos;
 				FoodGenerate();
 			}
-			if(snake.pos[snake.length-1].y==2||pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
+			else if(snake.pos[snake.length-1].y==2||pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
 				printf("you failed!\n");
 				return 0;
-				
 			}
 			else {
 				for(int i=0;i<snake.length-1;i++){
@@ -128,7 +113,7 @@ int SnakeMove(char direction){
 				snake.pos[snake.length-1]=food.pos;
 				FoodGenerate();
 			}
-			if(snake.pos[snake.length-1].y==SCREEN_Y-3||pixel[snake.pos[snake.length-1].y+1][snake.pos[snake.length-1].x]==BODY){
+			else if(snake.pos[snake.length-1].y==SCREEN_Y-3||pixel[snake.pos[snake.length-1].y+1][snake.pos[snake.length-1].x]==BODY){
 				printf("you failed!\n");
 				return 0;
 			}
@@ -146,7 +131,7 @@ int SnakeMove(char direction){
 				snake.pos[snake.length-1]=food.pos;
 				FoodGenerate();
 			}
-			if(snake.pos[snake.length-1].x==2||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x-1]==BODY){
+			else if(snake.pos[snake.length-1].x==2||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x-1]==BODY){
 				printf("you failed\n");
 				return 0;
 			}
@@ -164,7 +149,7 @@ int SnakeMove(char direction){
 				snake.pos[snake.length-1]=food.pos;
 				FoodGenerate();
 			}
-			if(snake.pos[snake.length-1].x==SCREEN_X-3||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x+1]==BODY){
+			else if(snake.pos[snake.length-1].x==SCREEN_X-3||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x+1]==BODY){
 				printf("you failed");
 				return 0;
 			}
@@ -178,7 +163,7 @@ int SnakeMove(char direction){
 			break;
 		default:break;
 	}
-	DrawSnake();
+	WritePixel();
 	return 1;
 }
 
@@ -186,7 +171,7 @@ int SnakeMove(char direction){
 
 void FoodGenerate(){
 	srand((unsigned) time(NULL));
-	DrawSnake();
+	WritePixel();
 	int blanksize=MOVEAREA_X*MOVEAREA_Y-snake.length;
 	int foodindex=rand()%blanksize;
 	int a=0;
