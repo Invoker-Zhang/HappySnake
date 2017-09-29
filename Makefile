@@ -1,2 +1,2 @@
-test:test.c HappySnake.c
-	gcc -o test test.c HappySnake.c -g 
+test:test.c HappySnake.c HappySnake.h
+	gcc -o test test.c HappySnake.c -g -lpthread

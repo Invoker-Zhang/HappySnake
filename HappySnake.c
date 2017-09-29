@@ -24,8 +24,10 @@ void FreshenScreen(){
 					printf("$");break;
 				default:break;
 			}
+			fflush(stdout);
 		}
-		printf("\n");
+		printf("\n\r");
+		fflush(stdout);
 	}
 }
 
@@ -71,7 +73,7 @@ void DrawSnake(){
 	}
 }
 
-void SnakeMove(char direction){
+int SnakeMove(char direction){
 	char origin_direction='w';
 	if(snake.pos[snake.length-1].x-1==snake.pos[snake.length-2].x)
 		origin_direction='d';
@@ -109,6 +111,7 @@ void SnakeMove(char direction){
 			}
 			if(snake.pos[snake.length-1].y==2||pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
 				printf("you failed!\n");
+				return 0;
 				
 			}
 			else {
@@ -127,6 +130,7 @@ void SnakeMove(char direction){
 			}
 			if(snake.pos[snake.length-1].y==SCREEN_Y-3||pixel[snake.pos[snake.length-1].y+1][snake.pos[snake.length-1].x]==BODY){
 				printf("you failed!\n");
+				return 0;
 			}
 			else {
 				for(int i=0;i<snake.length-1;i++){
@@ -144,6 +148,7 @@ void SnakeMove(char direction){
 			}
 			if(snake.pos[snake.length-1].x==2||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x-1]==BODY){
 				printf("you failed\n");
+				return 0;
 			}
 			else{
 				for(int i=0;i<snake.length-1;i++){
@@ -161,6 +166,7 @@ void SnakeMove(char direction){
 			}
 			if(snake.pos[snake.length-1].x==SCREEN_X-3||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x+1]==BODY){
 				printf("you failed");
+				return 0;
 			}
 			else {
 				for(int i=0;i<snake.length-1;i++){
@@ -173,6 +179,7 @@ void SnakeMove(char direction){
 		default:break;
 	}
 	DrawSnake();
+	return 1;
 }
 
 

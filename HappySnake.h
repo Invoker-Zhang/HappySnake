@@ -1,7 +1,7 @@
 #ifndef _HAPPYSNAKE_H_
 #define _HAPPYSNAKE_H_
-#define MOVEAREA_X 50
-#define MOVEAREA_Y 30
+#define MOVEAREA_X 30
+#define MOVEAREA_Y 20
 #define SCREEN_X (MOVEAREA_X+2*2)
 #define SCREEN_Y (MOVEAREA_Y+2*2)
 typedef struct Pos{
@@ -31,7 +31,7 @@ int pixel[SCREEN_Y][SCREEN_X];
 void SnakeInit();
 void FoodGenerate();
 int IsCrash();
-void SnakeMove(char direction);
+int SnakeMove(char direction);
 void DrawSnake();
 void FreshenScreen();
 
