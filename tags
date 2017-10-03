@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BLANK	HappySnake.h	25;"	d
+BODY	HappySnake.h	26;"	d
+FOOD	HappySnake.h	28;"	d
+FRAME	HappySnake.h	24;"	d
+Food	HappySnake.h	/^typedef struct Food{$/;"	s
+Food	HappySnake.h	/^}Food;$/;"	t	typeref:struct:Food
+FoodGenerate	HappySnake.c	/^void FoodGenerate(){$/;"	f
+FreshenScreen	HappySnake.c	/^void FreshenScreen(){$/;"	f
+HEAD	HappySnake.h	27;"	d
+IsOpsite	HappySnake.c	10;"	d	file:
+MOVEAREA_X	HappySnake.h	3;"	d
+MOVEAREA_Y	HappySnake.h	4;"	d
+Pos	HappySnake.h	/^typedef struct Pos{$/;"	s
+Pos	HappySnake.h	/^}Pos;$/;"	t	typeref:struct:Pos
+ReadKey	test.c	/^void ReadKey(){$/;"	f
+SCREEN_X	HappySnake.h	5;"	d
+SCREEN_Y	HappySnake.h	6;"	d
+Snake	HappySnake.h	/^typedef struct Snake{$/;"	s
+Snake	HappySnake.h	/^}Snake;$/;"	t	typeref:struct:Snake
+SnakeInit	HappySnake.c	/^void SnakeInit(){$/;"	f
+SnakeMove	HappySnake.c	/^int SnakeMove(char direction){$/;"	f
+WritePixel	HappySnake.c	/^void WritePixel(){$/;"	f
+_HAPPYSNAKE_H_	HappySnake.h	2;"	d
+above	HappySnake.c	6;"	d	file:
+below	HappySnake.c	7;"	d	file:
+food	HappySnake.h	/^Food food;$/;"	v
+input	test.c	/^char input='a';$/;"	v
+kbhit	test.c	/^int kbhit(){$/;"	f
+left	HappySnake.c	8;"	d	file:
+length	HappySnake.h	/^	int length;$/;"	m	struct:Snake
+main	test.c	/^int main(){$/;"	f
+pixel	HappySnake.h	/^int pixel[SCREEN_Y][SCREEN_X];$/;"	v
+pos	HappySnake.h	/^	Pos *pos;$/;"	m	struct:Snake
+pos	HappySnake.h	/^	Pos pos;$/;"	m	struct:Food
+right	HappySnake.c	9;"	d	file:
+snake	HappySnake.h	/^Snake snake;$/;"	v
+x	HappySnake.h	/^	int x;$/;"	m	struct:Pos
+y	HappySnake.h	/^	int y;$/;"	m	struct:Pos

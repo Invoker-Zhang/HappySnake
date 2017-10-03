@@ -8,6 +8,7 @@
 #define left(a,b) ((a.y==b.y&&a.x+1==b.x)?1:0)
 #define right(a,b) ((a.y==b.y&&a.x-1==b.x)?1:0)
 #define IsOpsite(a,b) (((a=='w'&&b=='s')||(a=='a'&&b=='d')||(a=='s'&&b=='w'||a=='d'&&b=='a'))?1:0)
+#define snakehead (snake.pos[snake.length-1])
 
 
 void SnakeInit(){
@@ -46,7 +47,7 @@ void WritePixel(){
 	}
 	int i=0;
 	pixel[food.pos.y][food.pos.x]=FOOD;
-	pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x]=HEAD;
+	pixel[snakehead.y][snakehead.x]=HEAD;
 	for(i=0;i<snake.length-1;i++){
 		pixel[snake.pos[i].y][snake.pos[i].x]=BODY; 
 	}
@@ -77,92 +78,45 @@ void FreshenScreen(){
 
 int SnakeMove(char direction){
 	char origin_direction='w';
-	if(snake.pos[snake.length-1].x-1==snake.pos[snake.length-2].x)
+	if(snakehead.x-1==snake.pos[snake.length-2].x)
 		origin_direction='d';
-	else if(snake.pos[snake.length-1].x+1==snake.pos[snake.length-2].x)
+	else if(snakehead.x+1==snake.pos[snake.length-2].x)
 		origin_direction='a';
-	else if(snake.pos[snake.length-1].y-1==snake.pos[snake.length-2].y)
+	else if(snakehead.y-1==snake.pos[snake.length-2].y)
 		origin_direction='s';
 	else 
 		origin_direction='w';
 	if(IsOpsite(origin_direction,direction)){
 		direction=origin_direction;
 	}
+	Pos newhead=snakehead;
 	switch(direction){
 		case 'w':
-			if(above(food.pos,snake.pos[snake.length-1])){
-				snake.length++;
-				snake.pos[snake.length-1]=food.pos;
-				FoodGenerate();
-			}
-			else if(snake.pos[snake.length-1].y==2||\
-					pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
-				printf("you failed!\n");
-				return 0;
-			}
-			else {
-				for(int i=0;i<snake.length-1;i++){
-					snake.pos[i]=snake.pos[i+1];
-				}
-				snake.pos[snake.length-1].x=snake.pos[snake.length-2].x;
-				snake.pos[snake.length-1].y=snake.pos[snake.length-2].y-1;
-			}
-			break;
-		case 's':
-			if(below(food.pos,snake.pos[snake.length-1])){
-				snake.length++;
-				snake.pos[snake.length-1]=food.pos;
-				FoodGenerate();
-			}
-			else if(snake.pos[snake.length-1].y==SCREEN_Y-3||pixel[snake.pos[snake.length-1].y+1][snake.pos[snake.length-1].x]==BODY){
-				printf("you failed!\n");
-				return 0;
-			}
-			else {
-				for(int i=0;i<snake.length-1;i++){
-					snake.pos[i]=snake.pos[i+1];
-				}
-				snake.pos[snake.length-1].x=snake.pos[snake.length-2].x;
-				snake.pos[snake.length-1].y=snake.pos[snake.length-2].y+1;
-			}
+			newhead.y=snakehead.y-1;
 			break;
 		case 'a':
-			if(left(food.pos,snake.pos[snake.length-1])){
-				snake.length++;
-				snake.pos[snake.length-1]=food.pos;
-				FoodGenerate();
-			}
-			else if(snake.pos[snake.length-1].x==2||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x-1]==BODY){
-				printf("you failed\n");
-				return 0;
-			}
-			else{
-				for(int i=0;i<snake.length-1;i++){
-					snake.pos[i]=snake.pos[i+1];
-				}
-				snake.pos[snake.length-1].x=snake.pos[snake.length-2].x-1;
-				snake.pos[snake.length-1].y=snake.pos[snake.length-2].y;
-			}
+			newhead.x=snakehead.x-1;
+			break;
+		case 's':
+			newhead.y=snakehead.y+1;
 			break;
 		case 'd':
-			if(right(food.pos,snake.pos[snake.length-1])){
-				snake.length++;
-				snake.pos[snake.length-1]=food.pos;
-				FoodGenerate();
-			}
-			else if(snake.pos[snake.length-1].x==SCREEN_X-3||pixel[snake.pos[snake.length-1].y][snake.pos[snake.length-1].x+1]==BODY){
-				printf("you failed");
-				return 0;
-			}
-			else {
-				for(int i=0;i<snake.length-1;i++){
-					snake.pos[i]=snake.pos[i+1];
-				}
-				snake.pos[snake.length-1].x=snake.pos[snake.length-2].x+1;
-				snake.pos[snake.length-1].y=snake.pos[snake.length-2].y;
-			}
+			newhead.x=snakehead.x+1;
 			break;
 		default:break;
+	}
+	if(IsCrash(newhead))
+		return 0;
+	if(newhead.x==food.pos.x&&newhead.y==food.pos.y){
+		snake.length++;
+		snakehead=food.pos;
+		FoodGenerate();
+	}
+	else{
+		for(int i=0;i<snake.length-1;i++){
+			snake.pos[i]=snake.pos[i+1];
+		}
+		snakehead=newhead;
 	}
 	WritePixel();
 	return 1;
@@ -191,7 +145,13 @@ void FoodGenerate(){
 	}
 }
 
-
+int IsCrash(Pos newhead){
+	if(pixel[newhead.y][newhead.x]==BODY)
+		return 1;
+	if(pixel[newhead.y][newhead.x]==FRAME)
+		return 1;
+	return 0;
+}
 
 
 

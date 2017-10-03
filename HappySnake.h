@@ -30,7 +30,7 @@ int pixel[SCREEN_Y][SCREEN_X];
 
 void SnakeInit();
 void FoodGenerate();
-int IsCrash();
+int IsCrash(Pos );
 int SnakeMove(char direction);
 void WritePixel();
 void FreshenScreen();
