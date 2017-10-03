@@ -9,29 +9,6 @@
 #define right(a,b) ((a.y==b.y&&a.x-1==b.x)?1:0)
 #define IsOpsite(a,b) (((a=='w'&&b=='s')||(a=='a'&&b=='d')||(a=='s'&&b=='w'||a=='d'&&b=='a'))?1:0)
 
-void FreshenScreen(){
-	system("clear");
-	for(int i=0;i<SCREEN_Y;i++){
-		for(int j=0;j<SCREEN_X;j++){
-			switch(pixel[i][j]){
-				case FRAME:
-					printf("/");break;
-				case BLANK:
-					printf(" ");break;
-				case BODY:
-					printf("*");break;
-				case HEAD:
-					printf("#");break;
-				case FOOD:
-					printf("$");break;
-				default:break;
-			}
-			fflush(stdout);
-		}
-		printf("\n\r");
-		fflush(stdout);
-	}
-}
 
 void SnakeInit(){
 	{
@@ -74,6 +51,29 @@ void WritePixel(){
 		pixel[snake.pos[i].y][snake.pos[i].x]=BODY; 
 	}
 }
+void FreshenScreen(){
+	system("clear");
+	for(int i=0;i<SCREEN_Y;i++){
+		for(int j=0;j<SCREEN_X;j++){
+			switch(pixel[i][j]){
+				case FRAME:
+					printf("/");break;
+				case BLANK:
+					printf(" ");break;
+				case BODY:
+					printf("*");break;
+				case HEAD:
+					printf("#");break;
+				case FOOD:
+					printf("$");break;
+				default:break;
+			}
+			fflush(stdout);
+		}
+		printf("\n\r");
+		fflush(stdout);
+	}
+}
 
 int SnakeMove(char direction){
 	char origin_direction='w';
@@ -95,7 +95,8 @@ int SnakeMove(char direction){
 				snake.pos[snake.length-1]=food.pos;
 				FoodGenerate();
 			}
-			else if(snake.pos[snake.length-1].y==2||pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
+			else if(snake.pos[snake.length-1].y==2||\
+					pixel[snake.pos[snake.length-1].y-1][snake.pos[snake.length-1].x]==BODY){
 				printf("you failed!\n");
 				return 0;
 			}

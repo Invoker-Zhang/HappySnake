@@ -9,6 +9,7 @@ char input='a';
 void ReadKey(){
 	system("stty raw -echo");
 	while(1){
+		usleep(1000*10);
 		if(kbhit()){
 			input=getchar();
 			fflush(stdout);
